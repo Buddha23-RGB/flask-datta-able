@@ -1,15 +1,28 @@
-Install Nginx: If you don't have Nginx installed, you can install it using the following command:
+# Install Nginx (if using WSL)
+wsl sudo apt-get install nginx
 
-sudo apt-get install nginx
+# Copy the Nginx configuration file (adjust the path as needed)
+wsl sudo cp /mnt/c/Users/joech/OneDrive/Documents/GitHub/flask-datta-able/nginx/appseed-app.conf /etc/nginx/sites-available/
 
-sudo ln -s /etc/nginx/sites-available/appseed-app.conf /etc/nginx/sites-enabled/
+# Create a symbolic link (if using WSL)
+wsl sudo ln -s /etc/nginx/sites-available/appseed-app.conf /etc/nginx/sites-enabled/
 
-sudo cp path/to/appseed-app.conf /etc/nginx/sites-available/
-sudo ln -s /etc/nginx/sites-available/appseed-app.conf /etc/nginx/sites-enabled/
+# Test Nginx configuration
+wsl sudo nginx -t
 
+# Restart Nginx
+wsl sudo systemctl restart nginx
 
-sudo nginx -t
+# Install Python dependencies
+pip install -r requirements.txt
 
-sudo systemctl restart nginx
+# Initialize the database
+flask db init
+flask db migrate -m "Initial migration."
+flask db upgrade
 
+# Start Nginx (if not already running)
+wsl sudo systemctl start nginx
+
+# Run the Flask application
 flask run --host=0.0.0.0 --port=5005
