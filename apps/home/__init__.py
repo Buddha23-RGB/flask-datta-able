@@ -1,12 +1,9 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
+from flask import Flask
+from apps.home import blueprint as home_blueprint
 
-from flask import Blueprint
+app = Flask(__name__)
+app.register_blueprint(home_blueprint, url_prefix='/home')
 
-blueprint = Blueprint(
-    'home_blueprint',
-    __name__,
-    url_prefix=''
-)
+if __name__ == "__main__":
+    app.run(debug=True)
